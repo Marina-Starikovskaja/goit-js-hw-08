@@ -1,7 +1,7 @@
 import throttle from 'lodash.throttle';
 
-const FEEDBACK_FORM_STATE = 'feedback-form-state';
-const form = document.querySelector('.feedback-form');
+// const FEEDBACK_FORM_STATE = 'feedback-form-state';
+const form = document.querySelector('form.feedback-form');
 
 // создание const на обработку ошибок
 const save = (key, value) => {
@@ -35,17 +35,17 @@ const removeKey = key => {
 form.addEventListener('input', throttle(saveValue, 500));
 
 // делегирование собития и создание объекта на прослушивание всей формы
-let formData = getItemKey(FEEDBACK_FORM_STATE) || {};
+let formData = getItemKey("feedback-form-state") || {};
 function saveValue(e) {
   formData[e.target.name] = e.target.value;
-  save(FEEDBACK_FORM_STATE, JSON.stringify(formData));
+  save("feedback-form-state", JSON.stringify(formData));
 }
 
 // запись данных в localStorage
 localStorageValue();
 
 function localStorageValue() {
-  const proverka = getItemKey(FEEDBACK_FORM_STATE);
+  const proverka = getItemKey("feedback-form-state");
   if (proverka) {
     if (proverka.email) {
       form.email.value = proverka.email;
@@ -62,6 +62,7 @@ form.addEventListener('submit', handleSubmit);
 
 function handleSubmit(e) {
   e.preventDefault();   //отменяем действие по дефолту
+  
   // проверяем заполнены поля или нет при отправке формы
   const {
     elements: { email, message },
@@ -70,10 +71,11 @@ function handleSubmit(e) {
   if (email.value === '' || message.value === '') {
     return alert('Please fill in all the fields!');
   }
-    
-  removeKey(FEEDBACK_FORM_STATE);
+  removeKey("feedback-form-state");
   const formData = new FormData(form);
   const valuesFotm = Object.fromEntries(formData.entries());
-  e.currentTarget.reset();   // очищаем форму и localStorage после отправки формы (нажалия кнопки)
+  console.log(valuesFotm);
+  e.currentTarget.reset();   // очищаем форму и localStorage после отправки формы (нажатия кнопки)
+  localStorage.removeItem("feedback-form-state");
 }
 

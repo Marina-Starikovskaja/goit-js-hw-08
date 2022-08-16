@@ -48,8 +48,5 @@ function onPlay ({seconds}) {
         player.setCurrentTime(getItemKey(VIDEOPLAYER_CURRENT_TIME));
     };
 
-// player.setCurrentTime(
-//     JSON.parse(localStorage.getItem('videoplayer-current-time'))
-// )
 
 
